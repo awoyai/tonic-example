@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package usercenter;
+
+// The greeting service definition.
+service User {
+  // Sends a greeting
+  rpc Login (LoginRequest) returns (LoginReply) {}
+}
+
+// The request message containing the user's name.
+message LoginRequest {
+  string name = 1;
+  string password = 2;
+}
+
+// The response message containing the greetings
+message LoginReply {
+  string message = 1;
+}
