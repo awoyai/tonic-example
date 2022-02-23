@@ -37,8 +37,12 @@ impl Trade for Trader {
     async fn trade(&self, request: Request<TradeRequest>) -> Result<Response<TradeReply>, Status> {
         println!("request: {:?}", request);
         let req = request.into_inner();
-        let reply = trading::TradeReply{ message: 
-            format!("trading successful!, from: {}, to: {}, amount: {}", req.from, req.to, req.amount,).into(),
+        let reply = trading::TradeReply {
+            message: format!(
+                "trading successful!, from: {}, to: {}, amount: {}",
+                req.from, req.to, req.amount,
+            )
+            .into(),
         };
         Ok(Response::new(reply))
     }
@@ -50,6 +54,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let user = MyUser::default();
 
     Server::builder()
+        .accept_http1(true)
         .add_service(UserServer::new(user))
         .add_service(TradeServer::new(Trader::default()))
         .serve(addr)
